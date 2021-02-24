@@ -109,11 +109,11 @@
       let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
       if (loggedInUser) {
 
-        let userId = { loggedInUserId: loggedInUser.id }
-        console.log(userId)
+        // let userId = { loggedInUserId: loggedInUser.id }
+        // console.log(userId)
         // let url = "https://shopping-app-rest-api.herokuapp.com/api/walletBalance";
-        let url = "api/walletBalance";
-        axios.patch(url, userId).then(response => {
+        let url = "api/walletBalance?userId=" + loggedInUser.id;
+        axios.get(url).then(response => {
           let walletBalance = response.data.balance;
           document.querySelector("#wallet").innerHTML += "Rs." + walletBalance;
         });
