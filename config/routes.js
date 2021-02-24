@@ -33,6 +33,7 @@ module.exports.routes = {
   "post /api/login": { action: "users/login" },
   "post /api/register": { action: "users/register" },
   "get /api/users": { action: "users/login" },
+  "get /api/userList": { action: "users/users-list" },
   "put /api/wallet": { action: "users/wallet" },
   "put /api/changeUserPassword": { action: "users/change-password" }
 
