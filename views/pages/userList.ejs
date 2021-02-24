@@ -63,7 +63,7 @@
 
         function loadUsers() {
 
-            let url = "http://localhost:3000/api/userLists";
+            let url = "api/userLists";
             // let url = "https://shopping-app-rest-api.herokuapp.com/api/userLists";
             axios.get(url).then(response => {
                 displayUsers(response.data);
@@ -105,7 +105,7 @@
 
         loadUsers();
 
-        $("#header").load("_header.html");
+        // $("#header").load("_header.html");
 
     </script>
 </body>
