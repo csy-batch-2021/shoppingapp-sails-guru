@@ -1,5 +1,6 @@
 const UserService = require("../../services/user.service");
 
+
 module.exports = async function wallet(req, res) {
     try {
         let userId = req.body.loggedInUserId;
