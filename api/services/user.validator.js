@@ -100,21 +100,19 @@ class UserValidator {
     static async isUserExists(isUserIdExists) {
         if (!isUserIdExists) {
             throw new Error("Please Enter Valid UserID");
-        } else {
-            return isUserIdExists;
         }
+        //    else {
+        //     return isUserIdExists;
+        // }
     }
 
-    static async passwordMatch(hashPassword, userId, newPassword) {
+    static async passwordMatch(oldPassword, existsPassword) {
+        let hashPassword = await bcrypt.compare(oldPassword, existsPassword);
         if (hashPassword == false) {
             throw new Error("Old Password Incorrect");
-        } else {
-            await bcrypt.hash(newPassword, 10, (err, hash) => {
-                UserDAO.updatePassword(hash, userId);
-            });
         }
-    }
 
+    }
 }
 
 module.exports = {

@@ -83,10 +83,13 @@ class UserService {
       // console.log(updateUserPassword, "passs")
       console.log(oldPassword, newPassword);
       await UserValidator.updatePasswordValid(oldPassword, newPassword);
-      let isUserIdExists = await UserDAO.findOne(userId);
-      await UserValidator.isUserExists(isUserIdExists);
-      let hashPassword = await bcrypt.compare(oldPassword, isUserIdExists.password);
-      await UserValidator.passwordMatch(hashPassword, userId, newPassword);
+      let user = await UserDAO.findOne(userId);
+      await UserValidator.isUserExists(user);
+      // let hashPassword = await bcrypt.compare(oldPassword, isUserIdExists.password);
+      await UserValidator.passwordMatch(oldPassword, user.password);
+      await bcrypt.hash(newPassword, 10, (err, hash) => {
+        UserDAO.updatePassword(hash, userId)
+      });
       return "Password Successfully Changed";
     } catch (error) {
       throw error;
