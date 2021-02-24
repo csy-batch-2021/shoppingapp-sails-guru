@@ -57,7 +57,7 @@
         function register(user_name, email, password) {
             let userDetails = { name: user_name, email: email, password: password };
 
-            // let url = "https://shopping-app-rest-api.herokuapp.com/api/addUser";
+            // let url = "https://shopping-app-guru-api.herokuapp.com/api/register";
             let url = "/api/register";
 
             axios.post(url, userDetails).then(response => {
