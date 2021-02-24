@@ -56,7 +56,6 @@ module.exports.datastores = {
     user: "guru",
     password: "Guru@2021",
     database: "guru_db",
-
   },
 
 
