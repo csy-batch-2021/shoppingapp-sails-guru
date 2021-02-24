@@ -46,7 +46,7 @@ class UserDAO {
 
     static async addWalletBalance(bals, id) {
         let ds = await sails.getDatastore();
-        let result = await ds.sendNativeQuery("update wallet set balance =$1 where user_id =$2", [bals, id]);
+        let result = await ds.sendNativeQuery("update wallet set balance = balance + $1 where user_id =$2", [bals, id]);
         let data = result.rows;
         return data;
     }
