@@ -27,7 +27,7 @@ class UserDAO {
         let ds = await sails.getDatastore();
         let result = await ds.sendNativeQuery("select * from users where id=$1", [id]);
         let data = result.rows;
-        return data[0][0];
+        return data[0];
     }
 
     static async findUser(email) {
@@ -46,14 +46,14 @@ class UserDAO {
 
     static async addWalletBalance(bals, id) {
         let ds = await sails.getDatastore();
-        let result = await ds.sendNativeQuery("update wallet set balance =? where user_id =?", [bals, id]);
+        let result = await ds.sendNativeQuery("update wallet set balance =$1 where user_id =$2", [bals, id]);
         let data = result.rows;
         return data;
     }
 
     static async updatePassword(hash, userId) {
         let ds = await sails.getDatastore();
-        let result = await ds.sendNativeQuery("update users set password = ? where id= ?", [hash, userId]);
+        let result = await ds.sendNativeQuery("update users set password =$1 where id= $2", [hash, userId]);
         return result.affectedRows;
     }
 
