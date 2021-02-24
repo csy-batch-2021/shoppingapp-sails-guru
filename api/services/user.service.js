@@ -94,7 +94,6 @@ class UserService {
   }
 
   static async userLists() {
-    console.log("Llll")
     let userList = await UserDAO.userFullList();
     return userList;
   }
