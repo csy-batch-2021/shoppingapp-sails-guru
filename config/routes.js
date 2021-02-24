@@ -35,7 +35,7 @@ module.exports.routes = {
   "get /api/users": { action: "users/login" },
   "get /api/userLists": { action: "users/users-list" },
   "patch /api/addBalance": { action: "users/update-wallet" },
-  "patch /api/walletBalance": { action: "users/wallet" },
+  "get /api/walletBalance": { action: "users/wallet" },
   "patch /api/changeUserPassword": { action: "users/change-password" }
 
 
