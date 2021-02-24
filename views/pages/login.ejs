@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script src="node_modules/shoppingapp/ProductApi.js"></script> -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<style>
+    h1 {
+        text-align: center;
+    }
+
+    form {
+        text-align: center;
+    }
+
+    label.email {
+        padding: 10px;
+    }
+
+    /* div {
+        text-align: center;
+        margin-left: 20px;
+        color: red;
+    } */
+
+    /* body {
+        background-image: url("https://image.freepik.com/free-photo/shopping-cart-yellow-background-minimalism-style-shop-trolley-supermarket-sale-discount-shopaholism-concept-consumer-society-trend_80743-2181.jpg");
+    } */
+</style>
+
+<body>
+
+    <h1>Login</h1>
+    <div id="message"></div>
+    <br>
+    <form id="form">
+        <label class="email">Email</label>
+        <input type="email" id="email" placeholder="Enter email" required>
+        <br>
+        <br>
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Enter Password" required>
+        <br>
+        <br>
+        <select name="role" id="role">
+            <option value="USER">USER</option>
+            <option value="ADMIN">ADMIN</option>
+        </select>
+        <br>
+        <br>
+        <button id="submitBtn"> Submit </button>
+        <button onclick="reset()" value="Reset">Clear</button>
+    </form>
+
+    <script>
+
+
+        function login(email, password, role) {
+            let user = { email: email, password: password, role: role };
+            // let url = "https://shopping-app-rest-api.herokuapp.com/api/userLogin";
+            //let url = "/api/login"
+            let url = "api/login";
+
+            axios.post(url, user).then(response => {
+                let userData = response.data;
+                localStorage.setItem("LOGGED_IN_USER", JSON.stringify(userData));
+                // document.querySelector("#message").innerHTML = "Successfully LoggedIn";
+                toastr.success("Successfully LoggedIn");
+                if (userData.role == "ADMIN") {
+
+                    window.location.href = "orders";
+                }
+                else {
+                    window.location.href = "products";
+                }
+            }).catch(err => {
+                let error = err.response.data.message;
+                console.error(error);
+                // document.querySelector("#message").innerHTML = error;
+                toastr.error(error);
+            });
+        }
+
+        function loginSubmit() {
+            let email = document.querySelector("#email").value;
+            let password = document.querySelector("#password").value;
+            let role = document.querySelector("#role").value;
+            login(email, password, role);
+        }
+
+        document.querySelector("#submitBtn").addEventListener('click', event => {
+            event.preventDefault();
+            loginSubmit();
+        })
+
+        function reset() {
+            document.getElementById("form").reset();
+        }
+
+    </script>
+</body>
+
+</html>
