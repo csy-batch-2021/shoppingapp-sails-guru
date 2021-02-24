@@ -20,8 +20,17 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': { view: 'pages/homepage' },
+  "get /login": { view: "pages/login" },
+  "get /register": { view: "pages/register" },
+  "get /userList": { view: "pages/userList" },
+  "get /updatePassword": { view: "pages/updatePassword" },
+  "get /wallet": { view: "pages/wallet" },
 
 
+  //REST API
+  "post /api/login": { action: "users/login" },
+  "post /api/register": { action: "users/register" },
+  "get /api/users": { action: "users/login" }
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
