@@ -57,6 +57,8 @@
         <div id="message"></div>
         <br>
         <form id="form">
+            <div id="wallet1"></div>
+            <br>
             <label class="userId">UserId</label>
             <input type="number" id="userId" placeholder="Enter UserId" required>
             <br>
@@ -95,14 +97,15 @@
                 let nbal = response.data;
                 console.log(nbal);
                 toastr.success("Successfully Balance Added");
-                if (nbal) {
-                    window.setTimeout(function () {
-                        window.location = "products";
-                    }, 1000);
-                }
-                else {
-                    window.location.href = "wallet";
-                }
+                loadWalletBalance1(userId);
+                // if (nbal) {
+                //     window.setTimeout(function () {
+                //         window.location = "products";
+                //     }, 1000);
+                // }
+                // else {
+                //     window.location.href = "wallet";
+                // }
             }).catch(err => {
                 console.log(err, "error message")
                 let error = err.response.data.message;
@@ -125,6 +128,22 @@
             document.getElementById("form").reset();
         }
         // $("#header").load("_header.html");
+
+        function loadWalletBalance1(userId) {
+            // let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
+            // if (loggedInUser) {
+
+            // let userId = { loggedInUserId: loggedInUser.id }
+            // console.log(userId)
+            // let url = "https://shopping-app-rest-api.herokuapp.com/api/walletBalance";
+            let url = "api/walletBalance?userId=" + userId;
+            axios.get(url).then(response => {
+                let walletBalance = response.data.balance;
+                document.querySelector("#wallet1").innerHTML += "Current Balance For This User Rs." + walletBalance;
+            });
+            // }
+        }
+
 
     </script>
 </body>
