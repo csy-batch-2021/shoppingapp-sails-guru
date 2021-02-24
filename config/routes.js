@@ -22,15 +22,23 @@ module.exports.routes = {
   '/': { view: 'pages/homepage' },
   "get /login": { view: "pages/login" },
   "get /register": { view: "pages/register" },
+  "get /adminRegister": { view: "pages/adminRegister" },
   "get /userList": { view: "pages/userList" },
   "get /updatePassword": { view: "pages/updatePassword" },
   "get /wallet": { view: "pages/wallet" },
+  "get /products": { view: "pages/products" },
 
 
   //REST API
   "post /api/login": { action: "users/login" },
   "post /api/register": { action: "users/register" },
-  "get /api/users": { action: "users/login" }
+  "get /api/users": { action: "users/login" },
+  "put /api/wallet": { action: "users/wallet" },
+  "put /api/changeUserPassword": { action: "users/change-password" }
+
+
+
+
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
