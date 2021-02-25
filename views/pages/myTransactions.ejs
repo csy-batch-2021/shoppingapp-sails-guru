@@ -32,6 +32,7 @@
         <table border="1" class="table table-bordered">
             <thead>
                 <tr>
+                    <th>Id</th>
                     <th>Amount</th>
                     <th>Transaction Type</th>
                     <th>Status</th>
@@ -84,7 +85,7 @@
                 for (let t of myTransations) {
 
                     let temp = ` <tr>
-
+    <td>${t.id}</td>
     <td>Rs.${t.amount}</td>
     <td>${t.transaction_type}</td>
     <td>${t.status}</td>
