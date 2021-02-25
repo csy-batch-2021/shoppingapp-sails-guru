@@ -1,0 +1,167 @@
+<h3>
+    List Products</h3>
+
+<a href="addProducts.html">
+    <button>Add New Product</button>
+</a>
+<br>
+
+<!-- <p>Product Runing Count:</p>
+        <div id="productsValues">
+        </div> -->
+<table border=" 1 " class="table table-bordered ">
+    <thead>
+        <tr>
+            <th>Sno</th>
+            <th>Product Name</th>
+            <th>Brand Name</th>
+            <th>RAM</th>
+            <th>Rating</th>
+            <th>Price</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody id="products-tbl">
+
+    </tbody>
+
+
+</table>
+<script>
+    function loadProducts() {
+        // const productSearchAPI = new ProductSearchAPI();
+        // let url = "https://shopping-app-rest-api.herokuapp.com/activeproducts ";
+
+        let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
+        let userId = loggedInUser.id;
+        // let userId = 1;
+        // let url = "http://localhost:3000/api/getAllProducts ";
+        // getProgressProductCount()
+        let url = "/api/getAllProducts";
+        axios.get(url).then(response => {
+            // console.table(response.data);
+            displayProducts(response.data);
+        });
+    }
+
+    function getProgressProductCount() {
+        // let url = "http://localhost:3000/api/getProgressProductsCount";
+
+        let url = "https://shopping-app-rest-api.herokuapp.com/api/getProgressProductsCount";
+        axios.get(url).then(response => {
+            displayProductsCount(response.data);
+        });
+    }
+    function displayProductsCount(productDetails) {
+        // console.table(productDetails);
+
+        let productStr = " ";
+        for (let products of productDetails) {
+            productStr += `<p>${products.brand_name} : ${products.count} `;
+        }
+        document.querySelector("#productsValues ").innerHTML = productStr;
+
+        // document.querySelector("#brandName ").innerHTML = brandNameStr;
+
+    }
+
+    //Display the product details  in a table
+    function displayProducts(products) {
+
+        const tbody = document.querySelector("#products-tbl");
+        tbody.innerHTML = "";
+        let content = "";
+        let i = 1;
+
+        console.log("products", products.length);
+        if (products.length != 0) {
+            for (let p of products) {
+
+                let temp = ` <tr>
+    <td>${i}</td>
+    <td>${p.name}</td>
+    <td>${p.brand_name}</td>
+    <td>${p.ram}</td>
+    <td>${p.rating != null ? p.rating : ""}</td>
+    <td>Rs.${p.price}</td><td>`
+                if (p.active == 0) {
+                    temp += `<button  type = "button" onClick="changeStatus(${p.id},true)" id="product-btn1" data-product-id=${p.id}>Enable</button>`
+                }
+                if (p.active == 1) {
+                    temp += `<button type = "button" onClick="changeStatus(${p.id},false)" id ="product-btn1" data-product-id=${p.id}>Disable</button>`
+                }
+
+                temp += `</td></tr >`;
+
+                content += temp;
+                i++;
+            }
+        }
+        else {
+            content = "No Records Found "
+        }
+        // console.log(content);
+        tbody.innerHTML = content;
+
+        // //Assign Listeners
+        // document.querySelectorAll("#product-btn1 ").forEach(element => {
+        //     let productId = parseInt(element.getAttribute("data-product-id "));
+        //     element.addEventListener('click', e => {
+        //         changeInactive(productId);
+        //         console.log("productId ", productId);
+
+        //     });
+        // });
+
+    }
+
+    function changeStatus(productId, status) {
+
+        console.log("change in active status ", productId, status);
+
+        if (confirm('Do you want to Change this Product Status?')) {
+
+            let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
+            let userId = loggedInUser.id;
+            let productDetails = { productId: productId, status: status, loggedInUserId: userId };
+            // console.log("productDetails ", productDetails);
+            // let url = "http://localhost:3000/api/changeProductStatus ";
+            let url = "https://shopping-app-rest-api.herokuapp.com/api/changeProductStatus";
+
+
+            axios.post(url, productDetails).then(response => {
+                // productOrderAPI.orderProduct(orderObj).then(response => {
+                console.log(response);
+                // document.getElementById("errorMessage ").innerHTML = response.data;
+                toastr.success("Product Status Changed");
+                loadProducts();
+                // window.location.href = "allproducts ";
+
+            }).catch(err => {
+                // console.error("Erroro ", );   
+                toastr.error(err.response.data.message);
+
+                // document.getElementById("errorMessage ").innerHTML = err.response.data.message;
+            });
+        }
+
+        else {
+            // Do nothing!
+            console.log('Thing was not saved to the database.');
+        }
+
+    }
+
+    let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
+
+    if (loggedInUser.role == "ADMIN") {
+        loadProducts();
+    } else {
+        toastr.error("You Are Not Authorized");
+        window.setTimeout(function () {
+            window.location = "products";
+        }, 1500);
+    }
+    $("#header ").load("_header.html ");
+
+</script>
