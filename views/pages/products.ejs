@@ -143,15 +143,20 @@
 
         // Get the products from the REST API
         function loadProducts() {
-            // const productSearchAPI = new ProductSearchAPI();
-            // let url = "https://shopping-app-rest-api.herokuapp.com/activeproducts";
-            let url = "/api/products";
+            let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
+            let userId = loggedInUser.id;
+            let url = "/api/products?loggedInUserId=" + userId;
             // let url = "https://shopping-app-rest-api.herokuapp.com/api/activeproducts";
             axios.get(url).then(response => {
                 console.table(response.data);
 
                 displayFilter(response.data);
                 displayProducts(response.data);
+            }, err => {
+                handleError(err);
+            }).catch(err => {
+                console.log("Error", err);
+                handleError(err);
             });
         }
 
@@ -195,6 +200,17 @@
             searchProducts();
         });
 
+        function handleError(err) {
+            console.log(err.response);
+            console.log("Error1", err.response.status);
+            if (err.response.status == 401) {
+                toastr.error("Access Denied. Redirect to Login page.");
+                window.location.href = "login";
+            }
+            else {
+                toastr.error("Error", err.response.data.message);
+            }
+        }
 
 
         loadProducts();

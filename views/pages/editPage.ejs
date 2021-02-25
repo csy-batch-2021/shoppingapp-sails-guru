@@ -16,11 +16,15 @@
     form {
         text-align: center;
     }
+
+    .updatebtn {
+        background: rgb(196, 226, 196);
+    }
 </style>
 
 <body>
-    <a href="updatePassword">Change Password</a><br>
-    <a href="Delete">Delete My Account</a>
+    <!-- <a href="updatePassword">Change Password</a> -->
+    <!-- <a href="Delete">Delete My Account</a> -->
     <h1>Update Profile</h1>
     <br>
     <form id="form">
@@ -32,6 +36,11 @@
         <br>
         <!-- <a href="updatePassword">Edit Users</a> -->
         <button id="submitBtn">Update Profile</button>
+        <br>
+        <br>
+        <button class="updatebtn">
+            <a href="updatePassword">Change Password</a>
+        </button>
     </form>
 
     <script>
@@ -43,8 +52,43 @@
         let user_name = document.querySelector("#name").value = loggedInUserName;
         let email = document.querySelector("#email").value = loggedInUserEmail;
 
-        console.log(user_name, email)
 
+        function userDetails(user_name, email) {
+            let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
+            let loggedInUserId = loggedInUser.id;
+            let Details = { loggedInUserId: loggedInUserId, user_name: user_name, email: email };
+            // let url = "https://shopping-app-rest-api.herokuapp.com/api/changeUserPassword";
+            let url = "api/updateProfile";
+            axios.patch(url, Details).then(response => {
+                let Details = response.data;
+                toastr.success("Profile Updated Successfully");
+                window.setTimeout(function () {
+                    logout();
+                }, 1000);
+            }).catch(err => {
+                console.log(err, "error message")
+                let error = err.response.data.message;
+                toastr.error(error);
+            });
+        }
+
+        function updateUser() {
+            let user_name = document.querySelector("#name").value;
+            let email = document.querySelector("#email").value;
+            userDetails(user_name, email);
+        }
+
+        function logout() {
+            // localStorage.clear();
+            localStorage.removeItem("LOGGED_IN_USER");
+
+            window.location.href = "login";
+        }
+
+        document.querySelector("#submitBtn").addEventListener('click', event => {
+            event.preventDefault();
+            updateUser();
+        })
 
     </script>
 </body>
