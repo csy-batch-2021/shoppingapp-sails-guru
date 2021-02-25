@@ -1,5 +1,5 @@
 const UserDAO = require("../dao/userdao");
-const UserValidator = require("./user.validator");
+const UserValidator = require("../validator/user.validator")
 const bcrypt = require("bcrypt");
 
 class UserService {
