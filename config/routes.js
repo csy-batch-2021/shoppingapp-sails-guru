@@ -26,7 +26,11 @@ module.exports.routes = {
   "get /userList": { view: "pages/userList" },
   "get /updatePassword": { view: "pages/updatePassword" },
   "get /wallet": { view: "pages/wallet" },
+  "get /allProducts": { view: "pages/allProducts" },
+  "get /myOrders": { view: "pages/myOrders" },
+  "get /orders": { view: "pages/orders" },
   "get /products": { view: "pages/products" },
+  "get /editPage": { view: "pages/editPage" },
 
 
   //REST API
@@ -36,7 +40,19 @@ module.exports.routes = {
   "get /api/userLists": { action: "users/users-list" },
   "patch /api/addBalance": { action: "users/update-wallet" },
   "get /api/walletBalance": { action: "users/wallet" },
-  "patch /api/changeUserPassword": { action: "users/change-password" }
+  "patch /api/changeUserPassword": { action: "users/change-password" },
+  "GET /api/products": { action: "product/list" },
+  "POST /api/addOrder": { action: "order/add-order" },
+  "GET /api/orders": { action: "order/all-order" },
+  "POST /api/changeorderstatus": { action: "order/change-order-status" },
+  "PATCH /api/order/:id/cancel": { action: "order/cancel-order" },
+  "GET /api/product/search": { action: "product/search-product" },
+  "GET /api/getAllProducts": { action: "product/get-all-products" },
+  "GET /api/myOrders": { action: "order/my-orders" },
+  "GET /api/orderStatusCount": { action: "order/my-orders-count" },
+  "POST /api/product/addRating": { action: "product/add-product-rating" },
+
+
 
 
 
