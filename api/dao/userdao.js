@@ -71,21 +71,53 @@ class UserDAO {
         return data;
     }
 
-    static async transactionList(walletId, amount, transaction_date) {
+    static async transactionList(walletId, amount, transaction_date, comments) {
         let ds = await sails.getDatastore();
         let transaction_type = "DEBIT";
         let status = "SUCCESS";
-        let params = [walletId, amount, transaction_type, status, transaction_date];
-        let sql = "insert into transactions(account_id,amount,transaction_type,status,transaction_date) values ($1,$2,$3,$4,$5)";
+        let params = [walletId, amount, transaction_type, status, transaction_date, comments];
+        let sql = "insert into transactions(account_id,amount,transaction_type,status,transaction_date,comments) values ($1,$2,$3,$4,$5,$6)";
         let result = await ds.sendNativeQuery(sql, params);
         let data = result.rows;
         return data;
     }
 
 
-    static async refundStatus(id) {
+    static async refundStatus(transactionList) {
         let ds = await sails.getDatastore();
-        let result = await ds.sendNativeQuery("update transactions set transaction_type = 'CREDIT' where id =$1", [id]);
+        let transaction_date = new Date();
+        let transaction_type = "CREDIT";
+        let comments = "Refunded # " + transactionList.id;
+        let params = [transactionList.account_id, transactionList.amount, transaction_type, transactionList.status, transaction_date, comments];
+        let sql = "insert into transactions(account_id,amount,transaction_type,status,transaction_date,comments) values ($1,$2,$3,$4,$5,$6)";
+        let result = await ds.sendNativeQuery(sql, params);
+        let data = result.rows;
+        return data;
+    }
+
+    static async updateUser(userId, name, email) {
+        try {
+            let ds = await sails.getDatastore();
+            let result = await ds.sendNativeQuery("update users set user_name =$1, email =$2 where id =$3", [name, email, userId]);
+            let data = result.rows;
+            return data;
+        } catch (error) {
+            throw new Error("Mail Already exists")
+        }
+
+    }
+
+
+    static async transactions() {
+        let ds = await sails.getDatastore();
+        let result = await ds.sendNativeQuery("select t.account_id,u.email,sum(amount) as Total_Amount from transactions t join users u on (t.account_id = u.id) where transaction_type = 'DEBIT' group by u.id");
+        let data = result.rows;
+        return data;
+    }
+
+    static async myTransactions(userId) {
+        let ds = await sails.getDatastore();
+        let result = await ds.sendNativeQuery("select * from transactions where account_id = (select id from wallet where user_id =$1)", [userId]);
         let data = result.rows;
         return data;
     }
@@ -116,6 +148,8 @@ module.exports = {
     transactionList: UserDAO.transactionList,
     updatedWalletBalance: UserDAO.updatedWalletBalance,
     refundStatus: UserDAO.refundStatus,
-
+    updateUser: UserDAO.updateUser,
+    transactions: UserDAO.transactions,
+    myTransactions: UserDAO.myTransactions,
 
 }

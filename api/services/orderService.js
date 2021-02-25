@@ -23,8 +23,10 @@ class OrderService {
             orderDetails.created_by = orderDetails.userId;
             orderDetails.modified_by = orderDetails.userId;
             let wallet = await UserDAO.findWalletUserId(orderDetails.userId);
-            await OrderValidator.toCheckWalletBalance(wallet, orderDetails);
-            await OrderDAO.save(orderDetails);
+            await OrderValidator.checkWalletBalance(wallet, orderDetails)
+            let orderId = await OrderDAO.save(orderDetails);
+            let comments = "Order Placed # " + orderId;
+            await OrderValidator.toCheckWalletBalance(wallet, orderDetails, comments);
             return "Product Ordered sucessfully";
         } catch (err) {
             throw err;

@@ -53,32 +53,32 @@ class OrderValidator {
         }
     }
 
-    static async toCheckWalletBalance(wallet, orderDetails) {
-        // let wallet = await UserDAO.findWalletUserId(orderDetails.userId);
+    static async toCheckWalletBalance(wallet, orderDetails, comments) {
         if (wallet.balance < orderDetails.totalAmount) {
             throw new Error("insufficient Wallet Balance");
         } else {
-            // console.log(orderDetails.created_date)
             let updateWalletbals = wallet.balance - orderDetails.totalAmount;
-            await UserDAO.transactionList(wallet.id, orderDetails.totalAmount, orderDetails.created_date);
+            await UserDAO.transactionList(wallet.id, orderDetails.totalAmount, orderDetails.created_date, comments);
             await UserDAO.updatedWalletBalance(updateWalletbals, orderDetails.userId);
+        }
+    }
+
+
+    static async checkWalletBalance(wallet, orderDetails) {
+        if (wallet.balance < orderDetails.totalAmount) {
+            throw new Error("insufficient Wallet Balance");
         }
     }
 
     static async walletBalanceRefund(orderDetails) {
 
         let cancelledList = await OrderDAO.findOne(orderDetails.orderId);
-        // let cancelledId = cancelledList.id;
-        let transactionList = await OrderDAO.allTransactions(cancelledList.id);
-        // let transactionAmount = transactionList.amount;
-        // let transactionAmount1 = Math.abs(transactionAmount);
-        // let transactionId = transactionList.id;
-        // let transactionAccountId = transactionList.account_id;
+        let transactionList = await OrderDAO.allTransactions(cancelledList.created_date);
         let existingBalance = await UserDAO.findWalletUserId(transactionList.account_id);
         let updateBalances = existingBalance.balance + transactionList.amount;
+        console.log(existingBalance.balance, transactionList.amount)
         await OrderDAO.refundWallet(updateBalances, transactionList.account_id);
-        // await UserDAO.deleteRefund(transactionId);
-        await UserDAO.refundStatus(transactionList.id);
+        await UserDAO.refundStatus(transactionList);
     }
 
 }
@@ -91,6 +91,7 @@ module.exports = {
     isExistOrderId: OrderValidator.isExistOrderId,
     walletBalanceRefund: OrderValidator.walletBalanceRefund,
     toCheckWalletBalance: OrderValidator.toCheckWalletBalance,
+    checkWalletBalance: OrderValidator.checkWalletBalance,
 
 
 }

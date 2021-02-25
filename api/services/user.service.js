@@ -81,7 +81,7 @@ class UserService {
   static async passwordUpdate(userId, oldPassword, newPassword) {
     try {
       // console.log(updateUserPassword, "passs")
-      console.log(oldPassword, newPassword);
+      // console.log(oldPassword, newPassword);
       await UserValidator.updatePasswordValid(oldPassword, newPassword);
       let user = await UserDAO.findOne(userId);
       await UserValidator.isUserExists(user);
@@ -101,6 +101,27 @@ class UserService {
     return userList;
   }
 
+  static async updateUser(userId, name, email) {
+    try {
+      await UserValidator.validateUpdateUser(name, email);
+      let user = await UserDAO.findOne(userId);
+      await UserDAO.updateUser(user.id, name, email);
+    } catch (error) {
+      throw error;
+
+    }
+  }
+
+  static async transactionFullList() {
+    let transactionList = await UserDAO.transactions();
+    return transactionList;
+  }
+
+  static async myTransactionFullList(userId) {
+    let myTransactionList = await UserDAO.myTransactions(userId);
+    return myTransactionList;
+  }
+
 }
 
 module.exports = {
@@ -110,6 +131,8 @@ module.exports = {
   walletBalance: UserService.walletBalance,
   passwordUpdate: UserService.passwordUpdate,
   userFullList: UserService.userLists,
-
+  updateUser: UserService.updateUser,
+  transactionFullList: UserService.transactionFullList,
+  myTransactionFullList: UserService.myTransactionFullList,
 }
 

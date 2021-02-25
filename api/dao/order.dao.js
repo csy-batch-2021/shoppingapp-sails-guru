@@ -16,7 +16,8 @@ class OrderDAO {
         const sql = "insert into orders (user_id,product_id,qty,total_amount,status,created_date,modified_date,created_by,modified_by) values ($1,$2,$3,$4,$5,$6,$7,$8,$9)";
 
         const result = await ds.sendNativeQuery(sql, params);
-        return result.rows;
+        // console.log(result, "id")
+        return result.insertId;
     }
     static async findAll() {
         let ds = await sails.getDatastore();
@@ -74,9 +75,9 @@ class OrderDAO {
         return data;
     }
 
-    static async allTransactions(cancelledId) {
+    static async allTransactions(cancelledDate) {
         let ds = await sails.getDatastore();
-        const result = await ds.sendNativeQuery("select * from transactions where id =$1", [cancelledId]);
+        const result = await ds.sendNativeQuery("select * from transactions where transaction_date =$1", [cancelledDate]);
         let data = result.rows;
         return data[0];
     }

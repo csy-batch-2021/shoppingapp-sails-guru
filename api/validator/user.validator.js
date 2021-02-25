@@ -121,6 +121,25 @@ class UserValidator {
         }
     }
 
+    static async validateUpdateUser(name, email) {
+        let regularExpression = /^[a-zA-Z]+$/;
+        let nameValid = regularExpression.test(name);
+        let emailVal = validator.validate(email);
+
+        if (name == null || name == "") {
+            throw new Error("Name cannot be empty");
+        } else if (name.length < 3) {
+            throw new Error("Name should be at least 3 characters");
+        } else if (name.trim() == 0) {
+            throw new Error("Name Must Contain Characters Only");
+        } else if (nameValid == false) {
+            throw new Error("Name Must Contain Characters Only");
+        } else if (email == null || email == "" || email.trim() == 0) {
+            throw new Error("Email cannot be empty");
+        } else if (emailVal == false) {
+            throw new Error("Invalid Email Format");
+        }
+    }
 
 }
 
@@ -135,5 +154,6 @@ module.exports = {
     passwordMatch: UserValidator.passwordMatch,
     updatePassword: UserValidator.updatePassword,
     toCheckValidUserId: UserValidator.toCheckValidUserId,
+    validateUpdateUser: UserValidator.validateUpdateUser,
 
 }
