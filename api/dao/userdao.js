@@ -51,6 +51,13 @@ class UserDAO {
         return data;
     }
 
+    static async updatedWalletBalance(bals, id) {
+        let ds = await sails.getDatastore();
+        let result = await ds.sendNativeQuery("update wallet set balance = $1 where user_id =$2", [bals, id]);
+        let data = result.rows;
+        return data;
+    }
+
     static async updatePassword(hash, userId) {
         let ds = await sails.getDatastore();
         let result = await ds.sendNativeQuery("update users set password =$1 where id= $2", [hash, userId]);
@@ -60,6 +67,25 @@ class UserDAO {
     static async userFullList() {
         let ds = await sails.getDatastore();
         let result = await ds.sendNativeQuery("select u.id, user_name, email, role, balance from users u right join wallet w on(u.id = w.user_id)");
+        let data = result.rows;
+        return data;
+    }
+
+    static async transactionList(walletId, amount, transaction_date) {
+        let ds = await sails.getDatastore();
+        let transaction_type = "DEBIT";
+        let status = "SUCCESS";
+        let params = [walletId, amount, transaction_type, status, transaction_date];
+        let sql = "insert into transactions(account_id,amount,transaction_type,status,transaction_date) values ($1,$2,$3,$4,$5)";
+        let result = await ds.sendNativeQuery(sql, params);
+        let data = result.rows;
+        return data;
+    }
+
+
+    static async refundStatus(id) {
+        let ds = await sails.getDatastore();
+        let result = await ds.sendNativeQuery("update transactions set transaction_type = 'CREDIT' where id =$1", [id]);
         let data = result.rows;
         return data;
     }
@@ -87,5 +113,9 @@ module.exports = {
     addWalletBalance: UserDAO.addWalletBalance,
     updatePassword: UserDAO.updatePassword,
     userFullList: UserDAO.userFullList,
+    transactionList: UserDAO.transactionList,
+    updatedWalletBalance: UserDAO.updatedWalletBalance,
+    refundStatus: UserDAO.refundStatus,
+
 
 }
