@@ -31,6 +31,8 @@ module.exports.routes = {
   "get /orders": { view: "pages/orders" },
   "get /products": { view: "pages/products" },
   "get /editPage": { view: "pages/editPage" },
+  "get /transactions": { view: "pages/transactions" },
+  "get /myTransactions": { view: "pages/myTransactions" },
 
 
   //REST API
@@ -41,6 +43,9 @@ module.exports.routes = {
   "patch /api/addBalance": { action: "users/update-wallet" },
   "get /api/walletBalance": { action: "users/wallet" },
   "patch /api/changeUserPassword": { action: "users/change-password" },
+  "patch /api/updateProfile": { action: "users/edit-profile" },
+  "get /api/transactions": { action: "users/transaction-list" },
+  "patch /api/myTransactions": { action: "users/mytransaction-list" },
   "GET /api/products": { action: "product/list" },
   "POST /api/addOrder": { action: "order/add-order" },
   "GET /api/orders": { action: "order/all-order" },

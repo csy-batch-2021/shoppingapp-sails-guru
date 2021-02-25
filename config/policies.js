@@ -9,6 +9,8 @@
  */
 
 module.exports.policies = {
+  "product/list": "isLoggedIn",
+  "user/login": true,
 
   /***************************************************************************
   *                                                                          *
