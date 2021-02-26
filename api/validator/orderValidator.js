@@ -10,9 +10,9 @@ class OrderValidator {
     }
 
     static async validCheck(orderDetails) {
-        this.isValidNumber(orderDetails.userId, "Please Enter Valid User ID");
-        this.isValidNumber(orderDetails.productId, "Please Enter Valid Product Id");
-        this.isValidNumber(orderDetails.qty, "Please Enter Valid Quantity");
+        this.isValidNumber(orderDetails.userId, 'Please Enter Valid User ID');
+        this.isValidNumber(orderDetails.productId, 'Please Enter Valid Product Id');
+        this.isValidNumber(orderDetails.qty, 'Please Enter Valid Quantity');
 
     }
 
@@ -20,41 +20,41 @@ class OrderValidator {
         var userResult = await UserDAO.findOne(orderDetails.userId);
         var productResult = await ProductDAO.findOne(orderDetails.productId);
         if (userResult == null) {
-            throw new Error("Please Check UserID");
+            throw new Error('Please Check UserID');
         } else if (productResult == null) {
-            throw new Error("Please Check ProductID");
+            throw new Error('Please Check ProductID');
         }
     }
 
     static async isValidForDelivery(orderId, status) {
         var result = await OrderDAO.findOne(orderId);
-        var statusText = ["ORDERED", "DELIVERED", "CANCELLED"];
+        var statusText = ['ORDERED', 'DELIVERED', 'CANCELLED'];
         var statusCheck = statusText.includes(status);
         if (!result) {
-            throw new Error("Please Entered Valid OrderId");
+            throw new Error('Please Entered Valid OrderId');
         } else if (!statusCheck) {
-            throw new Error("Please Enter Valid Status");
-        } else if (result.status == "DELIVERED") {
-            throw new Error("Delivered Product cannot be Delivered");
-        } else if (result.status == "CANCELLED") {
-            throw new Error("Already Order Product has been Cancelled");
+            throw new Error('Please Enter Valid Status');
+        } else if (result.status == 'DELIVERED') {
+            throw new Error('Delivered Product cannot be Delivered');
+        } else if (result.status == 'CANCELLED') {
+            throw new Error('Already Order Product has been Cancelled');
         }
     }
 
     static async isExistOrderId(orderId) {
         var result = await OrderDAO.findOne(orderId);
         if (!result) {
-            throw new Error("Please Entered Valid OrderId");
-        } else if (result.status == "DELIVERED") {
-            throw new Error("Delivered Product cannot be cancelled");
-        } else if (result.status == "CANCELLED") {
-            throw new Error("Already Order Product has been Cancelled");
+            throw new Error('Please Entered Valid OrderId');
+        } else if (result.status == 'DELIVERED') {
+            throw new Error('Delivered Product cannot be cancelled');
+        } else if (result.status == 'CANCELLED') {
+            throw new Error('Already Order Product has been Cancelled');
         }
     }
 
     static async toCheckWalletBalance(wallet, orderDetails, comments) {
         if (wallet.balance < orderDetails.totalAmount) {
-            throw new Error("insufficient Wallet Balance");
+            throw new Error('insufficient Wallet Balance');
         } else {
             let updateWalletbals = wallet.balance - orderDetails.totalAmount;
             await UserDAO.transactionList(wallet.id, orderDetails.totalAmount, orderDetails.created_date, comments);
@@ -65,7 +65,7 @@ class OrderValidator {
 
     static async checkWalletBalance(wallet, orderDetails) {
         if (wallet.balance < orderDetails.totalAmount) {
-            throw new Error("insufficient Wallet Balance");
+            throw new Error('insufficient Wallet Balance');
         }
     }
 

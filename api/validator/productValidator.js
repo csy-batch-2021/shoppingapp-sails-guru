@@ -6,7 +6,7 @@ class ProductValidator {
         var result = await ProductDAO.findOne(productId);
 
         if (!result) {
-            throw new Error("Please Check Product ID");
+            throw new Error('Please Check Product ID');
         }
     }
 }
