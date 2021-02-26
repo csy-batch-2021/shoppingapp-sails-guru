@@ -1,7 +1,9 @@
 const OrderService = require("../../services/orderService");
-const OrderValidator = require("../../validator/orderValidator")
+const OrderValidator = require("../../validator/orderValidator");
+
 module.exports = async function myOrders(req, res) {
     let userId = req.query.userId;
+    console.log('userId', userId);
     try {
         OrderValidator.isValidNumber(userId, "Please Enter Valid User ID");
         let myOrder = await OrderService.getMyOrder(userId);

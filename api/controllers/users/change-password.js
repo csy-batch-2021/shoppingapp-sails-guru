@@ -1,6 +1,7 @@
 const UserService = require("../../services/user.service");
 
 module.exports = async function updatePassword(req, res) {
+    console.log(req.body);
     try {
         let userId = req.body.loggedInUserId;
         let oldPassword = req.body.oldPassword;

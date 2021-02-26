@@ -3,6 +3,7 @@ const OrderService = require("../../services/orderService");
 
 module.exports = async function myOrdersCount(req, res) {
     let userId = req.query.userId;
+    console.log('userId', userId);
     try {
         UserValidator.toCheckValidUserId(userId)
         let myOrders = await OrderService.myOrderStatusCount(userId);

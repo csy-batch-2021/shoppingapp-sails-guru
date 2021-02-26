@@ -1,7 +1,7 @@
 const OrderService = require("../../services/orderService");
+
 module.exports = async function changOrderStatus(req, res) {
     console.log(req.body);
-
     let orderId = req.body.orderId;
     let userId = req.body.loggedInUserId;
     let status = req.body.status;

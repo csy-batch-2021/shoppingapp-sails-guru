@@ -1,6 +1,7 @@
 const UserService = require("../../services/user.service");
 
 module.exports = async function updateProfile(req, res) {
+    console.log(req.body);
     try {
         let userId = req.body.loggedInUserId;
         let name = req.body.user_name;

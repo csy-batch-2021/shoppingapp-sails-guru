@@ -1,5 +1,7 @@
 const OrderService = require("../../services/orderService");
+
 module.exports = async function (req, res) {
+    console.log('orderDetails', req.body);
     try {
         let orderDetails = req.body;
         console.log("orderDetails", orderDetails);
