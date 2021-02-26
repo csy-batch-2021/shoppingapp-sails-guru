@@ -4,8 +4,8 @@ module.exports = async function myOrders(req, res) {
     let userId = req.query.userId;
     try {
         OrderValidator.isValidNumber(userId, "Please Enter Valid User ID");
-        let myOrders = await OrderService.getMyOrder(userId);
-        const myOrdersList = myOrders.sort(
+        let myOrder = await OrderService.getMyOrder(userId);
+        const myOrdersList = myOrder.sort(
             (a, b) => b.created_date - a.created_date
         );
         res.json(myOrdersList);
