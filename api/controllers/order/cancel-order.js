@@ -1,4 +1,4 @@
-const OrderService = require("../../services/orderService")
+const OrderService = require("../../services/order.service")
 
 module.exports = async function cancelOrder(req, res) {
     let orderId = req.params.id;

@@ -1,5 +1,5 @@
-const OrderService = require("../../services/orderService");
-const OrderValidator = require("../../validator/orderValidator");
+const OrderService = require("../../services/order.service");
+const OrderValidator = require("../../validator/order.validator");
 
 module.exports = async function myOrders(req, res) {
     let userId = req.query.userId;

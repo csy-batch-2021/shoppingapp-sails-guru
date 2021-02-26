@@ -1,5 +1,5 @@
 const UserValidator = require("../../validator/user.validator");
-const OrderService = require("../../services/orderService");
+const OrderService = require("../../services/order.service");
 
 module.exports = async function myOrdersCount(req, res) {
     let userId = req.query.userId;

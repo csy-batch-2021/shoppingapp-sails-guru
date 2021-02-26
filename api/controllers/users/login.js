@@ -10,3 +10,4 @@ module.exports = async function loginUser(req, res) {
     res.status(400).json({ message: error.message });
   }
 }
+
