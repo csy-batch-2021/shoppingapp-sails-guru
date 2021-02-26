@@ -5,8 +5,7 @@ class UserDAO {
         let ds = await sails.getDatastore();
         let params = [user.name, user.email, hash, role];
         let sql = 'INSERT INTO users (user_name,email,password,role,active) VALUES ($1,$2,$3,$4,1)';
-        let result = await ds.sendNativeQuery(sql, params);
-        return result;
+        return await ds.sendNativeQuery(sql, params);
     }
 
     static async findByEmail(email) {
