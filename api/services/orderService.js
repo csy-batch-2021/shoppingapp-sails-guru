@@ -60,7 +60,7 @@ class OrderService {
             let orderId = orderDetails.orderId;
             await UserValidator.toCheckValidUserId(userId);
             await OrderValidator.isExistOrderId(orderId);
-            var result = await OrderDAO.cancelOrder(orderDetails);
+            await OrderDAO.cancelOrder(orderDetails);
             await OrderValidator.walletBalanceRefund(orderDetails);
             return "Your Amount Has Successfully Refunded To Your Wallet"
         } catch (err) {
@@ -68,6 +68,7 @@ class OrderService {
             throw err;
         }
     }
+
     // to find by order based on user id
     static async getMyOrder(userId) {
         return await OrderDAO.findMyOrder(userId);
