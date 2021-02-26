@@ -20,7 +20,7 @@ class UserService {
         return "User Added Successfully";
       }
     } catch (error) {
-      console.err(error);
+      console.log(error);
       throw error;
     }
   }
@@ -46,7 +46,7 @@ class UserService {
         return userlogin;
       }
     } catch (error) {
-      console.err(error);
+      console.log(error);
       throw error;
     }
   }
@@ -63,7 +63,7 @@ class UserService {
         return "Balance Updated";
       }
     } catch (error) {
-      console.err(error);
+      console.log(error);
       throw error;
     }
   }
@@ -77,7 +77,7 @@ class UserService {
         return result;
       }
     } catch (error) {
-      console.err(error);
+      console.log(error);
       throw error;
     }
   }
@@ -93,7 +93,7 @@ class UserService {
       });
       return "Password Successfully Changed";
     } catch (error) {
-      console.err(error);
+      console.log(error);
       throw error;
     }
   }
@@ -108,7 +108,7 @@ class UserService {
       let user = await UserDAO.findOne(userId);
       await UserDAO.updateUser(user.id, name, email);
     } catch (error) {
-      console.err(error);
+      console.log(error);
       throw error;
 
     }

@@ -26,7 +26,7 @@ class OrderService {
             await OrderValidator.toCheckWalletBalance(wallet, orderDetails, comments);
             return "Product Ordered sucessfully";
         } catch (err) {
-            console.err(err);
+            console.log(err);
             throw err;
         }
     }
@@ -36,7 +36,7 @@ class OrderService {
         try {
             return await OrderDAO.findAll();
         } catch (err) {
-            console.err(err);
+            console.log(err);
             throw new Error("Not able to fetch the orders");
         }
     }
@@ -78,7 +78,7 @@ class OrderService {
         try {
             return await OrderDAO.myOrdersStatusCount(userId);
         } catch (err) {
-            console.err(err);
+            console.log(err);
             throw new Error("Not able to fetch the orders");
         }
     }
