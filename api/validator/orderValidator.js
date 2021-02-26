@@ -1,20 +1,21 @@
-
 const UserDAO = require("../dao/userdao");
 const ProductDAO = require("../dao/product.dao");
 const OrderDAO = require("../dao/order.dao");
 class OrderValidator {
+
     static isValidNumber(input, message) {
-        let valid = true;
         if (input == null || input <= 0) {
             throw new Error(message);
         }
     }
+
     static async validCheck(orderDetails) {
         this.isValidNumber(orderDetails.userId, "Please Enter Valid User ID");
         this.isValidNumber(orderDetails.productId, "Please Enter Valid Product Id");
         this.isValidNumber(orderDetails.qty, "Please Enter Valid Quantity");
 
     }
+
     static async isValidId(orderDetails) {
         var userResult = await UserDAO.findOne(orderDetails.userId);
         var productResult = await ProductDAO.findOne(orderDetails.productId);
@@ -24,6 +25,7 @@ class OrderValidator {
             throw new Error("Please Check ProductID");
         }
     }
+
     static async isValidForDelivery(orderId, status) {
         var result = await OrderDAO.findOne(orderId);
         var statusText = ["ORDERED", "DELIVERED", "CANCELLED"];
@@ -38,6 +40,7 @@ class OrderValidator {
             throw new Error("Already Order Product has been Cancelled");
         }
     }
+
     static async isExistOrderId(orderId) {
         var result = await OrderDAO.findOne(orderId);
         if (!result) {
@@ -67,7 +70,6 @@ class OrderValidator {
     }
 
     static async walletBalanceRefund(orderDetails) {
-
         let cancelledList = await OrderDAO.findOne(orderDetails.orderId);
         let transactionList = await OrderDAO.allTransactions(cancelledList.created_date);
         let existingBalance = await UserDAO.findWalletUserId(transactionList.account_id);
@@ -88,6 +90,5 @@ module.exports = {
     walletBalanceRefund: OrderValidator.walletBalanceRefund,
     toCheckWalletBalance: OrderValidator.toCheckWalletBalance,
     checkWalletBalance: OrderValidator.checkWalletBalance,
-
 
 }
