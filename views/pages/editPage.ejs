@@ -36,7 +36,6 @@
         <input type="text" name="email" id="email" required>
         <br>
         <br>
-        <!-- <a href="updatePassword">Edit Users</a> -->
         <button id="submitBtn">Update Profile</button>
         <br>
         <br>
@@ -59,7 +58,6 @@
             let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
             let loggedInUserId = loggedInUser.id;
             let Details = { loggedInUserId: loggedInUserId, user_name: user_name, email: email };
-            // let url = "https://shopping-app-rest-api.herokuapp.com/api/changeUserPassword";
             let url = "api/updateProfile";
             axios.patch(url, Details).then(response => {
                 let Details = response.data;
@@ -81,7 +79,6 @@
         }
 
         function logout() {
-            // localStorage.clear();
             localStorage.removeItem("LOGGED_IN_USER");
 
             window.location.href = "login";
