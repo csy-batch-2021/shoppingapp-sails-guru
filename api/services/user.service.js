@@ -99,7 +99,8 @@ class UserService {
   }
 
   static async userLists() {
-    return await UserDAO.userFullList();
+    let result = await UserDAO.userFullList();
+    return result;
   }
 
   static async updateUser(userId, name, email) {
