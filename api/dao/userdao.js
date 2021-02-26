@@ -5,7 +5,8 @@ class UserDAO {
         let ds = await sails.getDatastore();
         let params = [user.name, user.email, hash, role];
         let sql = 'INSERT INTO users (user_name,email,password,role,active) VALUES ($1,$2,$3,$4,1)';
-        return await ds.sendNativeQuery(sql, params);
+        let result = await ds.sendNativeQuery(sql, params);
+        return result;
     }
 
     static async findByEmail(email) {
@@ -110,7 +111,7 @@ class UserDAO {
         let result = await ds.sendNativeQuery('SELECT * FROM transactions WHERE account_id = (SELECT id FROM wallet WHERE user_id =$1)', [userId]);
         return result.rows;
     }
-    
+
 }
 
 module.exports = {
