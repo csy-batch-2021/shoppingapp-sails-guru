@@ -99,7 +99,11 @@ class UserService {
   }
 
   static async userLists() {
-    return await UserDAO.userFullList();
+    try {
+      return await UserDAO.userFullList();
+    } catch (error) {
+      throw new Error('Not Able To Fetch User List')
+    }
   }
 
   static async updateUser(userId, name, email) {
@@ -114,13 +118,20 @@ class UserService {
     }
   }
 
-
   static async transactionFullList() {
-    return await UserDAO.transactions();
+    try {
+      return await UserDAO.transactions();
+    } catch (error) {
+      throw new Error('Not Able To Fetch All Transaction List')
+    }
   }
 
   static async myTransactionFullList(userId) {
-    return await UserDAO.myTransactions(userId);
+    try {
+      return await UserDAO.myTransactions(userId);
+    } catch (error) {
+      throw new Error('Not Able To Fetch Transaction List')
+    }
   }
 
 }
