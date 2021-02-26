@@ -13,7 +13,8 @@ class UserDAO {
     static async findByEmail(email) {
         let ds = await sails.getDatastore();
         let result = await ds.sendNativeQuery("select 1 from users where email=$1", [email]);
-        return result.rows;
+        let data = result.rows;
+        return data[0];
     }
 
     static async createWalletAccount(userId) {
