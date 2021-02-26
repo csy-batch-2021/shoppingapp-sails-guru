@@ -12,45 +12,45 @@ class UserValidator {
         let regularExpressionPassword = /^[a-zA-Z0-9]+$/;
         let passwordValid = regularExpressionPassword.test(user.password);
 
-        if (user.name == null || user.name == "") {
+        if (user.name === null || user.name === "") {
             throw new Error('Name cannot be empty');
         } else if (user.name.length < 3) {
             throw new Error('Name should be at least 3 characters');
-        } else if (user.name.trim() == 0) {
+        } else if (user.name.trim() === 0) {
             throw new Error('Name Must Contain Characters Only');
-        } else if (nameValid == false) {
+        } else if (nameValid === false) {
             throw new Error('Name Must Contain Characters Only');
-        } else if (user.email == null || user.email == "" || user.email.trim() == 0) {
+        } else if (user.email === null || user.email === "" || user.email.trim() === 0) {
             throw new Error('Email cannot be empty');
-        } else if (emailVal == false) {
+        } else if (emailVal === false) {
             throw new Error('Invalid Email Format');
-        } else if (user.password == null || user.password == "" || user.password.trim() == 0) {
+        } else if (user.password === null || user.password === "" || user.password.trim() === 0) {
             throw new Error('Password cannot be empty');
         } else if (user.password.length < 8) {
             throw new Error('password length should be at least 8 characters');
-        } else if (passwordValid == false) {
+        } else if (passwordValid === false) {
             throw new Error('Password Should Contain Alphanumeric Characters Only');
         }
     }
 
     static async isvalidEmail(login) {
-        if (login.email == null || login.email == "") {
+        if (login.email === null || login.email === "") {
             throw new Error('Email cannot be empty');
         }
-        else if (login.email.trim() == 0) {
+        else if (login.email.trim() === 0) {
             throw new Error('Invalid Email Format');
         }
         let emailVal = validator.validate(login.email);
-        if (emailVal == false) {
+        if (emailVal === false) {
             throw new Error('Invalid Email Format');
         }
-        else if (login.password == null || login.password == "" || login.password.trim() == 0) {
+        else if (login.password === null || login.password === "" || login.password.trim() === 0) {
             throw new Error('Password cannot be empty');
         }
     }
 
     static async isEmailExists(usersList) {
-        if (usersList == 0) {
+        if (usersList === 0) {
             throw new Error('Email Does Not Exist');
         } else {
             return usersList;
@@ -66,15 +66,15 @@ class UserValidator {
     }
 
     static async balanceValidator(bals, id) {
-        if (id == null || id == "") {
+        if (id === null || id === "") {
             throw new Error('UserId cannot be empty');
-        } else if (isNaN(id) || id.trim() == 0) {
+        } else if (isNaN(id) || id.trim() === 0) {
             throw new Error('UserId is not a number');
         } else if (id <= 0) {
             throw new Error('Invalid UserId');
-        } else if (bals == null || bals == "") {
+        } else if (bals === null || bals === "") {
             throw new Error('Balance cannot be empty');
-        } else if (bals <= 0 || bals.trim() == 0) {
+        } else if (bals <= 0 || bals.trim() === 0) {
             throw new Error('Invalid Balance Amount');
         } else if (bals > 90000) {
             throw new Error('Add Below RS.90000')
@@ -84,15 +84,15 @@ class UserValidator {
     static async updatePasswordValid(oldPassword, newPassword) {
         let regularExpressionPassword = /^[a-zA-Z0-9]+$/;
         let passwordValid = regularExpressionPassword.test(newPassword);
-        if (oldPassword == null || oldPassword == "") {
+        if (oldPassword === null || oldPassword === "") {
             throw new Error('oldPassword cannot be empty');
-        } else if (oldPassword.trim() == 0) {
+        } else if (oldPassword.trim() === 0) {
             throw new Error('Password Should Contain Alphanumeric Characters Only');
-        } else if (newPassword == null || newPassword == "") {
+        } else if (newPassword === null || newPassword === "") {
             throw new Error('New Password cannot be empty');
         } else if (newPassword.length < 8) {
             throw new Error('New password length should be at least 8 characters');
-        } else if (passwordValid == false || newPassword.trim() == 0) {
+        } else if (passwordValid === false || newPassword.trim() === 0) {
             throw new Error('New Password Should Contain Alphanumeric Characters Only');
         }
     }
@@ -108,7 +108,7 @@ class UserValidator {
 
     static async passwordMatch(oldPassword, existsPassword) {
         let hashPassword = await bcrypt.compare(oldPassword, existsPassword);
-        if (hashPassword == false) {
+        if (hashPassword === false) {
             throw new Error('Old Password Incorrect');
         }
 
@@ -126,17 +126,17 @@ class UserValidator {
         let nameValid = regularExpression.test(name);
         let emailVal = validator.validate(email);
 
-        if (name == null || name == "") {
+        if (name === null || name === "") {
             throw new Error('Name cannot be empty');
         } else if (name.length < 3) {
             throw new Error('Name should be at least 3 characters');
-        } else if (name.trim() == 0) {
+        } else if (name.trim() === 0) {
             throw new Error('Name Must Contain Characters Only');
-        } else if (nameValid == false) {
+        } else if (nameValid === false) {
             throw new Error('Name Must Contain Characters Only');
-        } else if (email == null || email == "" || email.trim() == 0) {
+        } else if (email === null || email === "" || email.trim() === 0) {
             throw new Error('Email cannot be empty');
-        } else if (emailVal == false) {
+        } else if (emailVal === false) {
             throw new Error('Invalid Email Format');
         }
     }
