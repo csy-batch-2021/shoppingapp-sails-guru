@@ -117,18 +117,15 @@
         // $("#header").load("_header.html");
 
         function loadWalletBalance1(userId) {
-            // let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
-            // if (loggedInUser) {
-
-            // let userId = { loggedInUserId: loggedInUser.id }
-            // console.log(userId)
-            // let url = "https://shopping-app-rest-api.herokuapp.com/api/walletBalance";
             let url = "api/walletBalance?userId=" + userId;
             axios.get(url).then(response => {
                 let walletBalance = response.data.balance;
                 document.querySelector("#wallet1").innerHTML += "Current Balance For This User Rs." + walletBalance;
+                window.setTimeout(function () {
+                    window.location = "wallet";
+                }, 2000);
             });
-            // }
+
         }
 
 
