@@ -7,6 +7,6 @@ module.exports = async function wallet(req, res) {
         let walletBals = await UserService.walletBalance(userId);
         res.json(walletBals);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }

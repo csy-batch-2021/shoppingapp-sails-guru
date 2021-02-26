@@ -1,7 +1,11 @@
-
 const ProductService = require("../../services/product.service");
 
 module.exports = async function getProducts(req, res) {
-    let products = await ProductService.getAllProducts();
-    res.json(products);
+    try {
+        let products = await ProductService.getAllProducts();
+        res.json(products);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+
 }

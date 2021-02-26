@@ -5,6 +5,6 @@ module.exports = async function transactionList(req, res) {
         let transactionLists = await UserService.transactionFullList();
         res.json(transactionLists);
     } catch (err) {
-        res.status(404).json({ message: err.message });
+        res.status(500).json({ message: err.message });
     }
 }

@@ -5,6 +5,6 @@ module.exports = async function usersList(req, res) {
         let userLists = await UserService.userFullList();
         res.json(userLists);
     } catch (err) {
-        res.status(404).json({ message: err.message });
+        res.status(400).json({ message: err.message });
     }
 }
