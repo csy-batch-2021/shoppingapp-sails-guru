@@ -1,10 +1,10 @@
 const OrderService = require("../../services/orderService")
 
 module.exports = async function cancelOrder(req, res) {
-    
+
     let orderId = req.params.id;
     let userId = req.body.userId;
-    let orderDetails = { orderId: req.params.id, userId: req.body.userId }
+    let orderDetails = { orderId: orderId, userId: userId }
 
     try {
         let order = await OrderService.cancelOrder(orderDetails);
