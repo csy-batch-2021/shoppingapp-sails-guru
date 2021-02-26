@@ -34,8 +34,7 @@ class OrderService {
     //get all orders
     static async getAllOrder() {
         try {
-            let orders = await OrderDAO.findAll();
-            return orders;
+            return await OrderDAO.findAll();
         } catch (err) {
             console.err(err);
             throw new Error("Not able to fetch the orders");
