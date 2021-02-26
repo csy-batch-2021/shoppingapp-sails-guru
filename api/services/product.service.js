@@ -1,6 +1,6 @@
 const ProductDAO = require("../dao/product.dao");
 const UserValidator = require("../validator/user.validator");
-const ProductValidator = require("../validator/productValidator");
+const ProductValidator = require("../validator/product.validator");
 const ProductRatingDAO = require("../dao/productRating.dao");
 
 class ProductService {

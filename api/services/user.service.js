@@ -13,8 +13,8 @@ class UserService {
       } else {
         await bcrypt.hash(user.password, 10, (err, hash) => {
           UserDAO.save(user, hash).then((res) => {
-            let userID = res.insertId;
-            UserDAO.createWalletAccount(userID);
+            let walletId = res.insertId;
+            UserDAO.createWalletAccount(walletId);
           });
         });
         return 'User Added Successfully';
