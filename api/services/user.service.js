@@ -20,6 +20,7 @@ class UserService {
         return "User Added Successfully";
       }
     } catch (error) {
+      console.err(error);
       throw error;
     }
   }
@@ -45,6 +46,7 @@ class UserService {
         return userlogin;
       }
     } catch (error) {
+      console.err(error);
       throw error;
     }
   }
@@ -61,6 +63,7 @@ class UserService {
         return "Balance Updated";
       }
     } catch (error) {
+      console.err(error);
       throw error;
     }
   }
@@ -74,31 +77,29 @@ class UserService {
         return result;
       }
     } catch (error) {
+      console.err(error);
       throw error;
     }
   }
 
   static async passwordUpdate(userId, oldPassword, newPassword) {
     try {
-      // console.log(updateUserPassword, "passs")
-      // console.log(oldPassword, newPassword);
       await UserValidator.updatePasswordValid(oldPassword, newPassword);
       let user = await UserDAO.findOne(userId);
       await UserValidator.isUserExists(user);
-      // let hashPassword = await bcrypt.compare(oldPassword, isUserIdExists.password);
       await UserValidator.passwordMatch(oldPassword, user.password);
       await bcrypt.hash(newPassword, 10, (err, hash) => {
         UserDAO.updatePassword(hash, userId)
       });
       return "Password Successfully Changed";
     } catch (error) {
+      console.err(error);
       throw error;
     }
   }
 
   static async userLists() {
-    let userList = await UserDAO.userFullList();
-    return userList;
+    return await UserDAO.userFullList();
   }
 
   static async updateUser(userId, name, email) {
@@ -107,19 +108,19 @@ class UserService {
       let user = await UserDAO.findOne(userId);
       await UserDAO.updateUser(user.id, name, email);
     } catch (error) {
+      console.err(error);
       throw error;
 
     }
   }
 
+
   static async transactionFullList() {
-    let transactionList = await UserDAO.transactions();
-    return transactionList;
+    return await UserDAO.transactions();
   }
 
   static async myTransactionFullList(userId) {
-    let myTransactionList = await UserDAO.myTransactions(userId);
-    return myTransactionList;
+    return await UserDAO.myTransactions(userId);
   }
 
 }

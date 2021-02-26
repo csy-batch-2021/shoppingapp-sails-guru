@@ -1,9 +1,7 @@
 const OrderService = require("../../services/orderService")
 
 module.exports = async function cancelOrder(req, res) {
-    // let orderId = req.body.orderId;
-    // console.log(req.params);
-    // console.log(req.body);
+    
     let orderId = req.params.id;
     let userId = req.body.userId;
     let orderDetails = { orderId: req.params.id, userId: req.body.userId }

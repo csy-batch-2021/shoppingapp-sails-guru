@@ -12,10 +12,7 @@ class OrderService {
             await OrderValidator.validCheck(orderDetails);
             await OrderValidator.isValidId(orderDetails);
             let product = await ProductService.getProductDetails(orderDetails.productId);
-
-            // console.log("product product", product)
             console.log("orderDetails", orderDetails.qty);
-
             orderDetails.totalAmount = orderDetails.qty * product.price;
             orderDetails.status = "ORDERED";
             orderDetails.created_date = new Date();
@@ -29,6 +26,7 @@ class OrderService {
             await OrderValidator.toCheckWalletBalance(wallet, orderDetails, comments);
             return "Product Ordered sucessfully";
         } catch (err) {
+            console.err(err);
             throw err;
         }
     }
@@ -39,6 +37,7 @@ class OrderService {
             let orders = await OrderDAO.findAll();
             return orders;
         } catch (err) {
+            console.err(err);
             throw new Error("Not able to fetch the orders");
         }
     }
@@ -46,11 +45,8 @@ class OrderService {
     // to change order status delivered
     static async changeOrderStatus(orderId, userId, status) {
         try {
-            // await OrderValidator.statusValidCheck(orderId, status);
             await OrderValidator.isValidForDelivery(orderId, status);
-            // await OrderValidator.toCheckValidOrderId(orderId);
-            var result = await OrderDAO.findOneAndUpdate(orderId, status, userId);
-            return result;
+            return await OrderDAO.findOneAndUpdate(orderId, status, userId);
         } catch (err) {
             console.log(err.message);
             throw err;
@@ -64,7 +60,6 @@ class OrderService {
             let userId = orderDetails.userId;
             let orderId = orderDetails.orderId;
             await UserValidator.toCheckValidUserId(userId);
-            // await OrderValidator.isValidCheck(orderId);
             await OrderValidator.isExistOrderId(orderId);
             var result = await OrderDAO.cancelOrder(orderDetails);
             await OrderValidator.walletBalanceRefund(orderDetails);
@@ -76,16 +71,14 @@ class OrderService {
     }
     // to find by order based on user id
     static async getMyOrder(userId) {
-        let myOrder = await OrderDAO.findMyOrder(userId);
-        return myOrder;
-        // console.log(myOrder);
+        return await OrderDAO.findMyOrder(userId);
     }
 
     static async myOrderStatusCount(userId) {
         try {
-            let orderValues = await OrderDAO.myOrdersStatusCount(userId);
-            return orderValues;
+            return await OrderDAO.myOrdersStatusCount(userId);
         } catch (err) {
+            console.err(err);
             throw new Error("Not able to fetch the orders");
         }
     }

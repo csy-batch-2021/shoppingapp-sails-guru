@@ -1,13 +1,12 @@
 const ProductDAO = require("../dao/product.dao");
-// const Products = require("../models/Products");
 const UserValidator = require("../validator/user.validator");
 const ProductValidator = require("../validator/productValidator");
 const ProductRatingDAO = require("../dao/productRating.dao");
+
 class ProductService {
     static async getAllProducts() {
         try {
-            let products = await ProductDAO.getAllProducts();
-            return products;
+            return await ProductDAO.getAllProducts();
         } catch (err) {
             console.log(err);
             throw new Error("Not able to fetch the products");
@@ -29,8 +28,7 @@ class ProductService {
 
     static async searchProducts(brandNames) {
         try {
-            let products = await ProductDAO.searchProducts(brandNames);
-            return products;
+            return await ProductDAO.searchProducts(brandNames);
         } catch (err) {
             console.log(err);
             throw new Error("Not able to fetch the products");
@@ -39,8 +37,7 @@ class ProductService {
     // to get all products
     static async getActiveProduct(params) {
         try {
-            var activeProduct = await ProductDAO.findActive();
-            return activeProduct;
+            return await ProductDAO.findActive();
         } catch (err) {
             throw new Error("Not able to fetch active products");
         }
@@ -50,14 +47,10 @@ class ProductService {
 
         try {
             await UserValidator.toCheckValidUserId(productRatingDetails.userId);
-            await ProductValidator.toCheckValidProductId(
-                productRatingDetails.productId
-            );
+            await ProductValidator.toCheckValidProductId(productRatingDetails.productId);
             productRatingDetails.created_by = productRatingDetails.userId;
             productRatingDetails.modified_by = productRatingDetails.userId;
-            // productRatingsDetails.
-            let result = await ProductRatingDAO.save(productRatingDetails);
-            return result;
+            return await ProductRatingDAO.save(productRatingDetails);
         } catch (err) {
             console.log(err);
             throw err;

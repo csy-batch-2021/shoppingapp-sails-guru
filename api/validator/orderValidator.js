@@ -6,10 +6,8 @@ class OrderValidator {
     static isValidNumber(input, message) {
         let valid = true;
         if (input == null || input <= 0) {
-            // valid = false;
             throw new Error(message);
         }
-        // return valid;
     }
     static async validCheck(orderDetails) {
         this.isValidNumber(orderDetails.userId, "Please Enter Valid User ID");
@@ -20,7 +18,6 @@ class OrderValidator {
     static async isValidId(orderDetails) {
         var userResult = await UserDAO.findOne(orderDetails.userId);
         var productResult = await ProductDAO.findOne(orderDetails.productId);
-        console.log(userResult)
         if (userResult == null) {
             throw new Error("Please Check UserID");
         } else if (productResult == null) {
@@ -42,7 +39,6 @@ class OrderValidator {
         }
     }
     static async isExistOrderId(orderId) {
-        // console.log("orderId", orderId);
         var result = await OrderDAO.findOne(orderId);
         if (!result) {
             throw new Error("Please Entered Valid OrderId");
