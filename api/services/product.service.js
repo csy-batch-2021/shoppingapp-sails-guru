@@ -9,15 +9,16 @@ class ProductService {
             return await ProductDAO.getAllProducts();
         } catch (err) {
             console.log(err);
-            throw new Error("Not able to fetch the products");
+            throw new Error('Not able to fetch the products');
         }
     }
+
     // to find and get particular order
     static async getProductDetails(productId) {
         try {
             var result = await ProductDAO.findOne(productId);
             if (!result) {
-                throw new Error("Please enter valid Prodct Id");
+                throw new Error('Please enter valid Prodct Id');
             }
             return result;
         } catch (err) {
@@ -31,7 +32,7 @@ class ProductService {
             return await ProductDAO.searchProducts(brandNames);
         } catch (err) {
             console.log(err);
-            throw new Error("Not able to fetch the products");
+            throw new Error('Not able to fetch the products');
         }
     }
     // to get all products
@@ -39,12 +40,12 @@ class ProductService {
         try {
             return await ProductDAO.findActive();
         } catch (err) {
-            throw new Error("Not able to fetch active products");
+            throw new Error('Not able to fetch active products');
         }
     }
-    static async addProductRating(productRatingDetails) {
-        console.log("productRatingDetails", productRatingDetails);
 
+    static async addProductRating(productRatingDetails) {
+        console.log('productRatingDetails', productRatingDetails);
         try {
             await UserValidator.toCheckValidUserId(productRatingDetails.userId);
             await ProductValidator.toCheckValidProductId(productRatingDetails.productId);

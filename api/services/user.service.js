@@ -9,7 +9,7 @@ class UserService {
       await UserValidator.validateNewUser(user);
       let exists = await UserDAO.findByEmail(user.email);
       if (exists) {
-        throw new Error("Mail Already exists");
+        throw new Error('Mail Already exists');
       } else {
         await bcrypt.hash(user.password, 10, (err, hash) => {
           UserDAO.save(user, hash).then((res) => {
@@ -17,7 +17,7 @@ class UserService {
             UserDAO.createWalletAccount(userID);
           });
         });
-        return "User Added Successfully";
+        return 'User Added Successfully';
       }
     } catch (error) {
       console.log(error);
@@ -32,7 +32,7 @@ class UserService {
       console.log(loginDetails);
       let usersList = await UserDAO.findUser(loginDetails.email);
       await UserValidator.isEmailExists(usersList);
-      let userRole = loginDetails.role != null ? loginDetails.role : "USER";
+      let userRole = loginDetails.role != null ? loginDetails.role : 'USER';
       let userlogin = usersList.find((u) => u.role == userRole);
       await UserValidator.isUserLoginExists(userlogin);
       let hashPassword = await bcrypt.compare(
@@ -40,7 +40,7 @@ class UserService {
         userlogin.password
       );
       if (!userlogin || hashPassword == false) {
-        throw new Error("Invalid User Detail");
+        throw new Error('Invalid User Detail');
       } else {
         delete userlogin.password;
         return userlogin;
@@ -56,11 +56,11 @@ class UserService {
       await UserValidator.balanceValidator(bals, id);
       let wallet = await UserDAO.findWalletUserId(id);
       if (!wallet) {
-        throw new Error("User Id Not Found");
+        throw new Error('User Id Not Found');
       } else {
         await UserValidator.balanceValidator(bals, id);
         await UserDAO.addWalletBalance(bals, id);
-        return "Balance Updated";
+        return 'Balance Updated';
       }
     } catch (error) {
       console.log(error);
@@ -72,7 +72,7 @@ class UserService {
     try {
       let result = await UserDAO.findWalletUserId(userId);
       if (!result) {
-        throw new Error("Invalid User Detail");
+        throw new Error('Invalid User Detail');
       } else {
         return result;
       }
@@ -91,7 +91,7 @@ class UserService {
       await bcrypt.hash(newPassword, 10, (err, hash) => {
         UserDAO.updatePassword(hash, userId)
       });
-      return "Password Successfully Changed";
+      return 'Password Successfully Changed';
     } catch (error) {
       console.log(error);
       throw error;
@@ -99,8 +99,7 @@ class UserService {
   }
 
   static async userLists() {
-    let result = await UserDAO.userFullList();
-    return result;
+    return await UserDAO.userFullList();
   }
 
   static async updateUser(userId, name, email) {
