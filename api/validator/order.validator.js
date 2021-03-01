@@ -1,4 +1,4 @@
-const UserDAO = require("../dao/userdao");
+const UserDAO = require("../dao/user.dao");
 const ProductDAO = require("../dao/product.dao");
 const OrderDAO = require("../dao/order.dao");
 class OrderValidator {

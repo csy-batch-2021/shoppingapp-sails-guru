@@ -1,4 +1,3 @@
-
 const ProductDAO = require("../dao/product.dao");
 
 class ProductValidator {

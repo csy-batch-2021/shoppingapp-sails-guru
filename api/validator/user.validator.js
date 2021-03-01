@@ -1,4 +1,4 @@
-const UserDAO = require("../dao/userdao");
+const UserDAO = require("../dao/user.dao");
 const bcrypt = require("bcrypt");
 const validator = require("email-validator");
 
