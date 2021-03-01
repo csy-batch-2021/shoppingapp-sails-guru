@@ -1,4 +1,4 @@
-const UserDAO = require("../dao/userdao");
+const UserDAO = require("../dao/order.dao");
 const UserValidator = require("../validator/user.validator")
 const bcrypt = require("bcrypt");
 
@@ -13,7 +13,7 @@ class UserService {
       } else {
         await bcrypt.hash(user.password, 10, (err, hash) => {
           UserDAO.save(user, hash).then((res) => {
-            let walletId = res.insertId;
+            let walletId = res;
             UserDAO.createWalletAccount(walletId);
           });
         });

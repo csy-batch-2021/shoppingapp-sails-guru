@@ -3,7 +3,7 @@ const ProductDAO = require("../dao/product.dao");
 const OrderValidator = require("../validator/order.validator");
 const ProductService = require("../services/product.service");
 const UserValidator = require("../validator/user.validator");
-const UserDAO = require("../dao/userdao");
+const UserDAO = require("../dao/user.dao");
 
 class OrderService {
 
