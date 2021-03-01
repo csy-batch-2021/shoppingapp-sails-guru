@@ -1,4 +1,4 @@
-const UserDAO = require("../dao/order.dao");
+const UserDAO = require("../dao/user.dao");
 const UserValidator = require("../validator/user.validator")
 const bcrypt = require("bcrypt");
 
